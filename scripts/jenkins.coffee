@@ -4,6 +4,7 @@
 # URLS:
 #   POST /hubot/jenkins?room=<room_name>
 
+USERNAME      = process.env.HUBOT_JENKINS_USERNAME      || "jenkins"
 module.exports = (robot) ->
   robot.router.post "/#{robot.name}/jenkins", (req, res) ->
     room = req.query.room
@@ -18,5 +19,6 @@ module.exports = (robot) ->
 
     payload =
       channel: "#{room}"
+      username: USERNAME
 
     robot.adapter.customMessage payload
