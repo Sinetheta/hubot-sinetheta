@@ -22,5 +22,8 @@ module.exports = (robot) ->
       channel: "#{room}"
       username: USERNAME
       icon_emoji: USER_EMOJI
+      attachments: [
+        title: "#{data.name} build ##{data.build.number}"
+      ]
 
     robot.adapter.customMessage payload
