@@ -5,6 +5,7 @@
 #   POST /hubot/jenkins?room=<room_name>
 
 USERNAME      = process.env.HUBOT_JENKINS_USERNAME      || "jenkins"
+USER_EMOJI    = process.env.HUBOT_JENKINS_USER_EMOJI
 module.exports = (robot) ->
   robot.router.post "/#{robot.name}/jenkins", (req, res) ->
     room = req.query.room
@@ -20,5 +21,6 @@ module.exports = (robot) ->
     payload =
       channel: "#{room}"
       username: USERNAME
+      icon_emoji: USER_EMOJI
 
     robot.adapter.customMessage payload
