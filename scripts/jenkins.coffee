@@ -6,6 +6,9 @@
 
 USERNAME      = process.env.HUBOT_JENKINS_USERNAME      || "jenkins"
 USER_EMOJI    = process.env.HUBOT_JENKINS_USER_EMOJI
+COLOR_FAILURE = process.env.HUBOT_JENKINS_COLOR_FAILURE || "#E74C3C"
+COLOR_SUCCESS = process.env.HUBOT_JENKINS_COLOR_SUCCESS || "#2ECC71"
+
 module.exports = (robot) ->
   robot.router.post "/#{robot.name}/jenkins", (req, res) ->
     room = req.query.room
@@ -18,6 +21,8 @@ module.exports = (robot) ->
 
     return unless data.build.phase is "FINALIZED"
 
+    was_success = data.build.status is "FIXED" or data.build.status is "SUCCESS"
+    color = if was_success then COLOR_SUCCESS else COLOR_FAILURE
     payload =
       channel: "#{room}"
       username: USERNAME
@@ -25,6 +30,7 @@ module.exports = (robot) ->
       attachments: [
         title: "#{data.name} build ##{data.build.number}"
         title_link: data.build.full_url
+        color: color
       ]
 
     robot.adapter.customMessage payload
