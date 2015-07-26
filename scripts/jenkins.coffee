@@ -40,6 +40,10 @@ module.exports = (robot) ->
     commit_url = "#{data.build.scm.url}/commit/#{sha}"
     text = "<#{commit_url}|#{data.build.scm.branch}##{sha}>"
 
+    staged_url = data.build.parameters.URL
+    if staged_url? and was_success
+      text += "\n#{staged_url}"
+
     fields.push
       title: "Status"
       value: data.build.status
