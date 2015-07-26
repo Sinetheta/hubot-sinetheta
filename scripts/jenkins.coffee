@@ -32,6 +32,7 @@ module.exports = (robot) ->
       attachments: [
         title: "#{data.name} build ##{data.build.number}"
         title_link: data.build.full_url
+        fallback: "#{data.name} build ##{data.build.number} #{data.build.status} #{data.build.full_url}"
         color: color
         fields: fields
       ]
