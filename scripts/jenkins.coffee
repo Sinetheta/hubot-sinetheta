@@ -15,3 +15,8 @@ module.exports = (robot) ->
     res.status(202).end()
 
     return unless data.build.phase is "FINALIZED"
+
+    payload =
+      channel: "#{room}"
+
+    robot.adapter.customMessage payload
