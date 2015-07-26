@@ -37,6 +37,10 @@ module.exports = (robot) ->
         fields: fields
       ]
 
+    pretext = data.build.parameters.PRETEXT
+    if pretext?
+      payload.attachments[0].pretext = pretext
+
     sha = data.build.scm.commit.slice(0,8)
     commit_url = "#{data.build.scm.url}/commit/#{sha}"
     text = "<#{commit_url}|#{data.build.scm.branch}##{sha}>"
