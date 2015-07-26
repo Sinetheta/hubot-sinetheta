@@ -24,6 +24,7 @@ module.exports = (robot) ->
       icon_emoji: USER_EMOJI
       attachments: [
         title: "#{data.name} build ##{data.build.number}"
+        title_link: data.build.full_url
       ]
 
     robot.adapter.customMessage payload
