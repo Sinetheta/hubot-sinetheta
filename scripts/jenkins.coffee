@@ -49,6 +49,14 @@ module.exports = (robot) ->
       value: data.build.status
       short: true
 
+    job_url = data.build.parameters.DOWNSTREAM
+    if job_url? and was_success
+      trigger_downstream = "#{job_url}/parambuild?GIT_COMMIT=#{data.build.scm.commit}"
+      fields.push
+        title: "Deploy Now"
+        value: "<#{trigger_downstream}|trigger upstream build>"
+        short: true
+
     payload.attachments[0].text = text
 
     robot.adapter.customMessage payload
