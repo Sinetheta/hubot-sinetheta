@@ -23,6 +23,8 @@ module.exports = (robot) ->
 
     was_success = data.build.status is "FIXED" or data.build.status is "SUCCESS"
     color = if was_success then COLOR_SUCCESS else COLOR_FAILURE
+    fields = []
+
     payload =
       channel: "#{room}"
       username: USERNAME
@@ -31,6 +33,18 @@ module.exports = (robot) ->
         title: "#{data.name} build ##{data.build.number}"
         title_link: data.build.full_url
         color: color
+        fields: fields
       ]
+
+    sha = data.build.scm.commit.slice(0,8)
+    commit_url = "#{data.build.scm.url}/commit/#{sha}"
+    text = "<#{commit_url}|#{data.build.scm.branch}##{sha}>"
+
+    fields.push
+      title: "Status"
+      value: data.build.status
+      short: true
+
+    payload.attachments[0].text = text
 
     robot.adapter.customMessage payload
